@@ -22,6 +22,7 @@ namespace CalculatorApp
             {
                 displayValue = "0";
                 DisplayLabel.Text = displayValue;
+                anOperationClicked = false;
             };
 
 		}
@@ -33,6 +34,25 @@ namespace CalculatorApp
                 displayValue = ClickedButton.Text;
             else
                 displayValue += ClickedButton.Text;
+
+            DisplayLabel.Text = displayValue;
+        }
+
+        public void OperationButtonEvent(Object sender, EventArgs e)
+        {
+            Button ClickedButton = (Button)sender;
+            if(displayValue.Substring(displayValue.Length - 1) == "+" || 
+               displayValue.Substring(displayValue.Length - 1) == "-" ||
+               displayValue.Substring(displayValue.Length - 1) == "÷" ||
+               displayValue.Substring(displayValue.Length - 1) == "✕")
+            {
+                displayValue = displayValue.Remove(displayValue.Length - 1);
+                displayValue += ClickedButton.Text;
+            }
+            else
+            {
+                displayValue += ClickedButton.Text;
+            }
 
             DisplayLabel.Text = displayValue;
         }
