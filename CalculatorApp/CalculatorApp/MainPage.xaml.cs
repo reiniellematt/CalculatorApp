@@ -29,8 +29,17 @@ namespace CalculatorApp
 
             EqualsButton.Clicked += (sender, e) =>
             {
-                int secondValueStart = firstNumber.ToString().Length + 1;
-                secondNumber = double.Parse(displayValue.Substring(secondValueStart));
+                double secondNumber;
+                try
+                {
+                    int secondValueStart = firstNumber.ToString().Length + 1;
+                    secondNumber = double.Parse(displayValue.Substring(secondValueStart));
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    secondNumber = 0;
+                }
+
 
                 switch (operation)
                 {
