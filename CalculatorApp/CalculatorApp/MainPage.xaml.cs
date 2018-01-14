@@ -10,7 +10,7 @@ namespace CalculatorApp
 	public partial class MainPage : ContentPage
 	{
         private string displayValue = "0";
-        private double firstNumber, secondNumber;
+        private double firstNumber, secondNumber, result;
         private char operation;
         private bool anOperationClicked = false;
 
@@ -22,7 +22,38 @@ namespace CalculatorApp
             {
                 displayValue = "0";
                 DisplayLabel.Text = displayValue;
+                EquationLabel.Text = string.Empty;
+                result = 0;
                 anOperationClicked = false;
+            };
+
+            EqualsButton.Clicked += (sender, e) =>
+            {
+                int secondValueStart = firstNumber.ToString().Length + 1;
+                secondNumber = double.Parse(displayValue.Substring(secondValueStart));
+
+                switch (operation)
+                {
+                    case '+':
+                        result = firstNumber + secondNumber;
+                        break;
+                    case '-':
+                        result = firstNumber - secondNumber;
+                        break;
+                    case '✕':
+                        result = firstNumber * secondNumber;
+                        break;
+                    case '÷':
+                        result = firstNumber / secondNumber;
+                        break;
+                    default:
+                        DisplayLabel.Text = "Syntax Error";
+                        EquationLabel.Text = "Hit C button again.";
+                        break;
+                }
+
+                EquationLabel.Text = $"{displayValue}";
+                DisplayLabel.Text = $"{result}";
             };
 
 		}
@@ -51,9 +82,11 @@ namespace CalculatorApp
             }
             else
             {
+                firstNumber = double.Parse(displayValue);
                 displayValue += ClickedButton.Text;
             }
 
+            operation = Convert.ToChar(ClickedButton.Text);
             DisplayLabel.Text = displayValue;
         }
     }
