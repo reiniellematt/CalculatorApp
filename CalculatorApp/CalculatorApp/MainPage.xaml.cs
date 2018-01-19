@@ -29,40 +29,38 @@ namespace CalculatorApp
 
             EqualsButton.Clicked += (sender, e) =>
             {
-                double secondNumber;
-                try
+
+                int secondValueStart = firstNumber.ToString().Length + 1;
+
+                if (displayValue.Substring(secondValueStart) == string.Empty)
                 {
-                    int secondValueStart = firstNumber.ToString().Length + 1;
+                    DisplayMessage("Syntax Error", "Press C button again.");
+                }
+                else
+                {
                     secondNumber = double.Parse(displayValue.Substring(secondValueStart));
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    secondNumber = 0;
-                }
+                    
+                    switch (operation)
+                    {
+                        case '+':
+                            result = firstNumber + secondNumber;
+                            break;
+                        case '-':
+                            result = firstNumber - secondNumber;
+                            break;
+                        case '✕':
+                            result = firstNumber * secondNumber;
+                            break;
+                        case '÷':
+                            result = firstNumber / secondNumber;
+                            break;
+                        default:
+                            DisplayMessage("Syntax Error", "Press C button again.");
+                            break;
+                    }
 
-
-                switch (operation)
-                {
-                    case '+':
-                        result = firstNumber + secondNumber;
-                        break;
-                    case '-':
-                        result = firstNumber - secondNumber;
-                        break;
-                    case '✕':
-                        result = firstNumber * secondNumber;
-                        break;
-                    case '÷':
-                        result = firstNumber / secondNumber;
-                        break;
-                    default:
-                        DisplayLabel.Text = "Syntax Error";
-                        EquationLabel.Text = "Hit C button again.";
-                        break;
+                    DisplayMessage(result.ToString(), displayValue);
                 }
-
-                EquationLabel.Text = $"{displayValue}";
-                DisplayLabel.Text = $"{result}";
             };
 
 		}
@@ -97,6 +95,12 @@ namespace CalculatorApp
 
             operation = Convert.ToChar(ClickedButton.Text);
             DisplayLabel.Text = displayValue;
+        }
+
+        private void DisplayMessage(string display, string equation)
+        {
+            DisplayLabel.Text = display;
+            EquationLabel.Text = equation;
         }
     }
 }
